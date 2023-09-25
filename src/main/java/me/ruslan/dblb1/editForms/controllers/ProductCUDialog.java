@@ -4,14 +4,14 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import me.ruslan.dblb1.db.ModelsCreateController;
 import me.ruslan.dblb1.db.ModelsUpdateController;
 import me.ruslan.dblb1.models.Product;
-import me.ruslan.dblb1.models.User;
 
 import java.sql.SQLException;
 import java.util.Objects;
 
-public class ProductEditDialog {
+public class ProductCUDialog {
     @FXML
     public TextField categoryIdText;
     @FXML
@@ -26,6 +26,7 @@ public class ProductEditDialog {
     public TextField quantityText;
 
     private Product product;
+    private boolean create = false;
 
     public void setProduct(Product product) {
         this.product = product;
@@ -35,6 +36,10 @@ public class ProductEditDialog {
         imageUrlText.setText(product.getImageUrl());
         priceText.setText(product.getPrice()+"");
         quantityText.setText(product.getQuantity()+"");
+    }
+
+    public void setCreate(boolean create) {
+        this.create = create;
     }
 
     private void numberError(String fieldName) {
@@ -72,8 +77,16 @@ public class ProductEditDialog {
                 description.equals(product.getDescription()) && sameIU &&
                 category_id == product.getCategoryId() &&
                 price == product.getPrice() &&
-                quantity == product.getQuantity()) {
+                quantity == product.getQuantity() && !create) {
             close();
+            return;
+        }
+
+        if(name.isEmpty() || description.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("These fields are required: name, description.");
+            alert.show();
             return;
         }
 
@@ -85,7 +98,11 @@ public class ProductEditDialog {
         product.setQuantity(quantity);
 
         try {
-            ModelsUpdateController.updateProduct(product);
+            if (create) {
+                ModelsCreateController.createProduct(product);
+            } else {
+                ModelsUpdateController.updateProduct(product);
+            }
         } catch (SQLException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");

@@ -3,7 +3,7 @@
 ```diff
 + Connecting to db
 + Fetching data from all of 3 tables
-- Creating new rows
++ Creating new rows
 + Deleting existing rows
 + Editing existing rows
 - Showing related data

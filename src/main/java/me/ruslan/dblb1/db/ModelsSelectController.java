@@ -23,8 +23,6 @@ public class ModelsSelectController {
         statement.close();
         conn.close();
 
-        System.out.println(id+" - "+object);
-
         return object;
     }
 

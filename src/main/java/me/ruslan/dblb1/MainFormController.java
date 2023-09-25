@@ -10,9 +10,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 import me.ruslan.dblb1.db.ModelsSelectController;
-import me.ruslan.dblb1.editForms.CategoryEditForm;
-import me.ruslan.dblb1.editForms.ProductEditForm;
-import me.ruslan.dblb1.editForms.UserEditForm;
+import me.ruslan.dblb1.editForms.CategoryCUForm;
+import me.ruslan.dblb1.editForms.ProductCUForm;
+import me.ruslan.dblb1.editForms.UserCUForm;
 import me.ruslan.dblb1.models.Category;
 import me.ruslan.dblb1.models.Model;
 import me.ruslan.dblb1.models.Product;
@@ -63,16 +63,16 @@ public class MainFormController {
                     return;
                 switch (currentTable) {
                     case "categories": {
-                        new CategoryEditForm((Category) row.getItem()).show(mainPane.getScene().getWindow());
+                        new CategoryCUForm((Category) row.getItem()).show(mainPane.getScene().getWindow());
                         break;
                     }
                     case "products": {
-                        new ProductEditForm((Product) row.getItem()).show(mainPane.getScene().getWindow());
+                        new ProductCUForm((Product) row.getItem()).show(mainPane.getScene().getWindow());
                         break;
                     }
                     case "users":
                     default: {
-                        new UserEditForm((User)row.getItem()).show(mainPane.getScene().getWindow());
+                        new UserCUForm((User)row.getItem()).show(mainPane.getScene().getWindow());
                         break;
                     }
                 }
@@ -136,6 +136,32 @@ public class MainFormController {
                 loadUsersData();
                 break;
             }
+        }
+    }
+
+    public void createObj() {
+        switch (currentTable) {
+            case "categories": {
+                new CategoryCUForm(new Category(-1, "New category"), true)
+                        .show(mainPane.getScene().getWindow());
+                break;
+            }
+            case "products": {
+                new ProductCUForm(new Product(-1, 0, "New product", "New product", null, 0, 0), true)
+                        .show(mainPane.getScene().getWindow());
+                break;
+            }
+            case "users":
+            default: {
+                new UserCUForm(new User(-1, "First name", "Last name", "password", "email@example.com", 380000000000L), true)
+                        .show(mainPane.getScene().getWindow());
+                break;
+            }
+        }
+        try {
+            refreshData();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 

@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="88.0" prefWidth="290.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="me.ruslan.dblb1.editForms.controllers.CategoryEditDialog">
+<AnchorPane prefHeight="88.0" prefWidth="290.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="me.ruslan.dblb1.editForms.controllers.CategoryCUDialog">
    <children>
       <Pane prefHeight="88.0" prefWidth="290.0">
          <children>
