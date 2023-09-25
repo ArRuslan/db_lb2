@@ -14,5 +14,6 @@
       <Button layoutX="623.0" layoutY="230.0" mnemonicParsing="false" onAction="#refreshData" text="Refresh" />
       <ChoiceBox fx:id="tablesChoiceBox" layoutY="230.0" prefHeight="26.0" prefWidth="175.0" />
       <Button layoutX="551.0" layoutY="230.0" mnemonicParsing="false" onAction="#createObj" text="Create" />
+      <Button layoutX="188.0" layoutY="230.0" mnemonicParsing="false" onAction="#showAllTables" text="Show all tables" />
     </Pane>
 </VBox>

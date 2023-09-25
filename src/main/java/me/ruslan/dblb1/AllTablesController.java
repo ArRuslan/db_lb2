@@ -8,11 +8,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 import me.ruslan.dblb1.db.ModelsSelectController;
-import me.ruslan.dblb1.editForms.CategoryCUForm;
-import me.ruslan.dblb1.editForms.ProductCUForm;
-import me.ruslan.dblb1.editForms.UserCUForm;
 import me.ruslan.dblb1.models.Category;
 import me.ruslan.dblb1.models.Model;
 import me.ruslan.dblb1.models.Product;
@@ -20,30 +17,23 @@ import me.ruslan.dblb1.models.User;
 
 import java.sql.SQLException;
 
-public class MainFormController {
-    private String currentTable = "users";
-
+public class AllTablesController {
     @FXML
-    public Pane mainPane;
-    public TableView table = null;
+    public TableView<User> tableUsers;
     @FXML
-    public ChoiceBox<String> tablesChoiceBox;
+    public TableView<Category> tableCategories;
+    @FXML
+    public TableView<Product> tableProducts;
 
     public void initialize() throws SQLException {
-        tablesChoiceBox.getItems().addAll("Users", "Categories", "Products");
-        tablesChoiceBox.setValue("Users");
-        tablesChoiceBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            currentTable = newValue.toLowerCase();
-            try {
-                setTable();
-                refreshData();
-            } catch(SQLException e) {}
-        });
+        initUsersTable();
+        initCategoriesTable();
+        initProductsTable();
 
-        setTable();
+        refreshData();
     }
 
-    private void setFactory() {
+    private void setFactory(TableView table) {
         table.setRowFactory(tableView -> {
             final TableRow<Model> row = new TableRow<>();
             final ContextMenu rowMenu = new ContextMenu();
@@ -58,31 +48,6 @@ public class MainFormController {
             });
             rowMenu.getItems().addAll(removeItem);
 
-            row.setOnMouseClicked(event -> {
-                if(event.getClickCount() != 2 || row.isEmpty())
-                    return;
-                switch (currentTable) {
-                    case "categories": {
-                        new CategoryCUForm((Category) row.getItem()).show(mainPane.getScene().getWindow());
-                        break;
-                    }
-                    case "products": {
-                        new ProductCUForm((Product) row.getItem()).show(mainPane.getScene().getWindow());
-                        break;
-                    }
-                    case "users":
-                    default: {
-                        new UserCUForm((User)row.getItem()).show(mainPane.getScene().getWindow());
-                        break;
-                    }
-                }
-                try {
-                    refreshData();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            });
-
             row.contextMenuProperty().bind(
                     Bindings.when(row.emptyProperty())
                             .then((ContextMenu) null)
@@ -91,103 +56,25 @@ public class MainFormController {
         });
     }
 
-    private void destroyTable() {
-        if(table != null)
-            mainPane.getChildren().remove(table);
-    }
-
-    private void createTable() {
-        table.setPrefHeight(224);
-        table.setPrefWidth(688);
-        mainPane.getChildren().add(table);
-        setFactory();
-    }
-
-    private void setTable() throws SQLException {
-        switch (currentTable) {
-            case "categories": {
-                createCategoriesTable();
-                break;
-            }
-            case "products": {
-                createProductsTable();
-                break;
-            }
-            case "users":
-            default: {
-                createUsersTable();
-                break;
-            }
-        }
-    }
-
-    public void refreshData() throws SQLException {
-        switch (currentTable) {
-            case "categories": {
-                loadCategoriesData();
-                break;
-            }
-            case "products": {
-                loadProductsData();
-                break;
-            }
-            case "users":
-            default: {
-                loadUsersData();
-                break;
-            }
-        }
-    }
-
-    public void createObj() {
-        switch (currentTable) {
-            case "categories": {
-                new CategoryCUForm(new Category(-1, "New category"), true)
-                        .show(mainPane.getScene().getWindow());
-                break;
-            }
-            case "products": {
-                new ProductCUForm(new Product(-1, 0, "New product", "New product", null, 0, 0), true)
-                        .show(mainPane.getScene().getWindow());
-                break;
-            }
-            case "users":
-            default: {
-                new UserCUForm(new User(-1, "First name", "Last name", "password", "email@example.com", 380000000000L), true)
-                        .show(mainPane.getScene().getWindow());
-                break;
-            }
-        }
-        try {
-            refreshData();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
     private void loadUsersData() throws SQLException {
         ObservableList<User> users = FXCollections.observableArrayList();
-        ((TableView<User>)table).setItems(users);
+        tableUsers.setItems(users);
         users.addAll(ModelsSelectController.getUsers());
     }
 
     private void loadCategoriesData() throws SQLException {
         ObservableList<Category> categories = FXCollections.observableArrayList();
-        ((TableView<Category>)table).setItems(categories);
+        tableCategories.setItems(categories);
         categories.addAll(ModelsSelectController.getCategories());
     }
 
     private void loadProductsData() throws SQLException {
         ObservableList<Product> products = FXCollections.observableArrayList();
-        ((TableView<Product>)table).setItems(products);
+        tableProducts.setItems(products);
         products.addAll(ModelsSelectController.getProducts());
     }
 
-    private void createUsersTable() throws SQLException {
-        destroyTable();
-        table = new TableView<User>();
-        createTable();
-
+    private void initUsersTable() {
         TableColumn<User, Integer> id_cell = new TableColumn<>("Id");
         TableColumn<User, String> fn_cell = new TableColumn<>("First name");
         TableColumn<User, String> ln_cell = new TableColumn<>("Last name");
@@ -202,32 +89,22 @@ public class MainFormController {
         pw_cell.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getPassword()));
         pn_cell.setCellValueFactory(p -> new SimpleLongProperty(p.getValue().getPhoneNumber()).asObject());
 
-        table.getColumns().addAll(id_cell, fn_cell, ln_cell, em_cell, pn_cell, pw_cell);
-
-        loadUsersData();
+        tableUsers.getColumns().addAll(id_cell, fn_cell, ln_cell, em_cell, pn_cell, pw_cell);
+        setFactory(tableUsers);
     }
 
-    private void createCategoriesTable() throws SQLException {
-        destroyTable();
-        table = new TableView<Category>();
-        createTable();
-
+    private void initCategoriesTable() {
         TableColumn<Category, Integer> id_cell = new TableColumn<>("Id");
         TableColumn<Category, String> nm_cell = new TableColumn<>("Name");
 
         id_cell.setCellValueFactory(p -> new SimpleIntegerProperty(p.getValue().getId()).asObject());
         nm_cell.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getName()));
 
-        table.getColumns().addAll(id_cell, nm_cell);
-
-        loadCategoriesData();
+        tableCategories.getColumns().addAll(id_cell, nm_cell);
+        setFactory(tableCategories);
     }
 
-    private void createProductsTable() throws SQLException {
-        destroyTable();
-        table = new TableView<Product>();
-        createTable();
-
+    private void initProductsTable() {
         TableColumn<Product, Integer> id_cell = new TableColumn<>("Id");
         TableColumn<Product, String> ci_cell = new TableColumn<>("Category Id");
         TableColumn<Product, String> cn_cell = new TableColumn<>("Category Name");
@@ -252,12 +129,17 @@ public class MainFormController {
         pr_cell.setCellValueFactory(p -> new SimpleIntegerProperty(p.getValue().getPrice()).asObject());
         qt_cell.setCellValueFactory(p -> new SimpleIntegerProperty(p.getValue().getQuantity()).asObject());
 
-        table.getColumns().addAll(id_cell, ci_cell, cn_cell, nm_cell, ds_cell, iu_cell, pr_cell, qt_cell);
+        tableProducts.getColumns().addAll(id_cell, ci_cell, cn_cell, nm_cell, ds_cell, iu_cell, pr_cell, qt_cell);
+        setFactory(tableProducts);
+    }
 
+    public void refreshData() throws SQLException {
+        loadUsersData();
+        loadCategoriesData();
         loadProductsData();
     }
 
-    public void showAllTables() {
-        new AllTablesForm().show(mainPane.getScene().getWindow());
+    public void close() {
+        ((Stage)tableUsers.getScene().getWindow()).close();
     }
 }
