@@ -76,4 +76,20 @@ public class ModelsSelectController {
 
         return products;
     }
+
+    public static ArrayList<Product> getProductsByCagetory(Category category) throws SQLException {
+        ArrayList<Product> products = new ArrayList<>();
+
+        Connection conn = Conn.get();
+        PreparedStatement statement = conn.prepareStatement("SELECT * FROM products WHERE category_id=?");
+        statement.setInt(1, category.getId());
+        ResultSet resultSet = statement.executeQuery();
+        while (resultSet.next())
+            products.add(Product.try_from_result(resultSet));
+        resultSet.close();
+        statement.close();
+        conn.close();
+
+        return products;
+    }
 }

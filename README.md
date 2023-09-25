@@ -6,6 +6,6 @@
 + Creating new rows
 + Deleting existing rows
 + Editing existing rows
-- Showing related data
-- Window with all 3 tables 
++ Showing related data
++ Window with all 3 tables 
 ```
