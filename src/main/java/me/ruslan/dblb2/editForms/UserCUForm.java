@@ -1,20 +1,19 @@
-package me.ruslan.dblb1.editForms;
+package me.ruslan.dblb2.editForms;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
-import me.ruslan.dblb1.MainForm;
-import me.ruslan.dblb1.editForms.controllers.UserCUDialog;
-import me.ruslan.dblb1.models.Product;
-import me.ruslan.dblb1.models.User;
+import me.ruslan.dblb2.MainForm;
+import me.ruslan.dblb2.editForms.controllers.UserCUDialog;
+import me.ruslan.dblb2.models.User;
 
 import java.io.IOException;
 
 public class UserCUForm {
-    private User user;
-    private boolean create;
+    private final User user;
+    private final boolean create;
 
     public UserCUForm(User user, boolean create) {
         this.user = user;

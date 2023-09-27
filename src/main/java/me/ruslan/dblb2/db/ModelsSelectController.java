@@ -1,20 +1,20 @@
-package me.ruslan.dblb1.db;
+package me.ruslan.dblb2.db;
 
-import me.ruslan.dblb1.models.Category;
-import me.ruslan.dblb1.models.Model;
-import me.ruslan.dblb1.models.Product;
-import me.ruslan.dblb1.models.User;
+import me.ruslan.dblb2.models.Category;
+import me.ruslan.dblb2.models.Model;
+import me.ruslan.dblb2.models.Product;
+import me.ruslan.dblb2.models.User;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.function.Function;
 
 public class ModelsSelectController {
-    private static Model getObjectById(int id, String tableName, Function<ResultSet, Model> constructor) throws SQLException {
+    private static Model getObjectById(int id, String tableName, String pk_name, Function<ResultSet, Model> constructor) throws SQLException {
         Model object = null;
 
         Connection conn = Conn.get();
-        PreparedStatement statement = conn.prepareStatement("SELECT * FROM " + tableName + " WHERE id = ?");
+        PreparedStatement statement = conn.prepareStatement(String.format("SELECT * FROM %s WHERE %s = ?", tableName, pk_name));
         statement.setInt(1, id);
         ResultSet resultSet = statement.executeQuery();
         if (resultSet.next())
@@ -42,7 +42,7 @@ public class ModelsSelectController {
     }
 
     public static User getUser(int id) throws SQLException {
-        return (User) getObjectById(id, "users", User::try_from_result);
+        return (User) getObjectById(id, "users", "user_id", User::try_from_result);
     }
 
     public static ArrayList<User> getUsers() throws SQLException {
@@ -54,7 +54,7 @@ public class ModelsSelectController {
     }
 
     public static Category getCategory(int id) throws SQLException {
-        return (Category) getObjectById(id, "categories", Category::try_from_result);
+        return (Category) getObjectById(id, "categories", "category_id", Category::try_from_result);
     }
 
     public static ArrayList<Category> getCategories() throws SQLException {
@@ -66,7 +66,7 @@ public class ModelsSelectController {
     }
 
     public static Product getProduct(int id) throws SQLException {
-        return (Product) getObjectById(id, "products", Product::try_from_result);
+        return (Product) getObjectById(id, "products", "product_id", Product::try_from_result);
     }
 
     public static ArrayList<Product> getProducts() throws SQLException {
@@ -77,7 +77,7 @@ public class ModelsSelectController {
         return products;
     }
 
-    public static ArrayList<Product> getProductsByCagetory(Category category) throws SQLException {
+    public static ArrayList<Product> getProductsByCategory(Category category) throws SQLException {
         ArrayList<Product> products = new ArrayList<>();
 
         Connection conn = Conn.get();

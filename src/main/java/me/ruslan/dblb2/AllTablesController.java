@@ -1,4 +1,4 @@
-package me.ruslan.dblb1;
+package me.ruslan.dblb2;
 
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -9,21 +9,21 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import me.ruslan.dblb1.db.ModelsSelectController;
-import me.ruslan.dblb1.models.Category;
-import me.ruslan.dblb1.models.Model;
-import me.ruslan.dblb1.models.Product;
-import me.ruslan.dblb1.models.User;
+import me.ruslan.dblb2.db.ModelsSelectController;
+import me.ruslan.dblb2.models.Category;
+import me.ruslan.dblb2.models.Model;
+import me.ruslan.dblb2.models.Product;
+import me.ruslan.dblb2.models.User;
 
 import java.sql.SQLException;
 
 public class AllTablesController {
     @FXML
-    public TableView<User> tableUsers;
+    TableView<User> tableUsers;
     @FXML
-    public TableView<Category> tableCategories;
+    TableView<Category> tableCategories;
     @FXML
-    public TableView<Product> tableProducts;
+    TableView<Product> tableProducts;
 
     public void initialize() throws SQLException {
         initUsersTable();

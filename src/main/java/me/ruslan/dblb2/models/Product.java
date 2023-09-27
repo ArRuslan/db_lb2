@@ -1,7 +1,7 @@
-package me.ruslan.dblb1.models;
+package me.ruslan.dblb2.models;
 
-import me.ruslan.dblb1.db.ModelsDeleteController;
-import me.ruslan.dblb1.db.ModelsSelectController;
+import me.ruslan.dblb2.db.ModelsDeleteController;
+import me.ruslan.dblb2.db.ModelsSelectController;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -100,7 +100,7 @@ public class Product implements Model {
 
     public static Product from_result(ResultSet result) throws SQLException {
         return new Product(
-                result.getInt("id"),
+                result.getInt("product_id"),
                 result.getInt("category_id"),
                 result.getString("name"),
                 result.getString("description"),

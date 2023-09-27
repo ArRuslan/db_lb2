@@ -1,11 +1,7 @@
-# Лабораторна робота №1 з дисципліни "Бази Даних"
+# Лабораторна робота №2 з дисципліни "Бази Даних"
 
 ```diff
-+ Connecting to db
-+ Fetching data from all of 3 tables
-+ Creating new rows
-+ Deleting existing rows
-+ Editing existing rows
-+ Showing related data
-+ Window with all 3 tables 
+- Manual sql query execution
+- Table pages & navigation
+- Editing existing rows (ChoiceBox for foreign keys)
 ```

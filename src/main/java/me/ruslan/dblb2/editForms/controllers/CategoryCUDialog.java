@@ -1,12 +1,12 @@
-package me.ruslan.dblb1.editForms.controllers;
+package me.ruslan.dblb2.editForms.controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import me.ruslan.dblb1.db.ModelsCreateController;
-import me.ruslan.dblb1.db.ModelsUpdateController;
-import me.ruslan.dblb1.models.Category;
+import me.ruslan.dblb2.db.ModelsCreateController;
+import me.ruslan.dblb2.db.ModelsUpdateController;
+import me.ruslan.dblb2.models.Category;
 
 import java.sql.SQLException;
 import java.util.Objects;

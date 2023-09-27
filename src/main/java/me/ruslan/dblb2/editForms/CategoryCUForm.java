@@ -1,19 +1,19 @@
-package me.ruslan.dblb1.editForms;
+package me.ruslan.dblb2.editForms;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
-import me.ruslan.dblb1.MainForm;
-import me.ruslan.dblb1.editForms.controllers.CategoryCUDialog;
-import me.ruslan.dblb1.models.Category;
+import me.ruslan.dblb2.MainForm;
+import me.ruslan.dblb2.editForms.controllers.CategoryCUDialog;
+import me.ruslan.dblb2.models.Category;
 
 import java.io.IOException;
 
 public class CategoryCUForm {
-    private Category category;
-    private boolean create;
+    private final Category category;
+    private final boolean create;
 
     public CategoryCUForm(Category category, boolean create) {
         this.category = category;

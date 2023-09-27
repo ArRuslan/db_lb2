@@ -1,6 +1,6 @@
-package me.ruslan.dblb1.models;
+package me.ruslan.dblb2.models;
 
-import me.ruslan.dblb1.db.ModelsDeleteController;
+import me.ruslan.dblb2.db.ModelsDeleteController;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -35,7 +35,7 @@ public class Category implements Model {
 
     public static Category from_result(ResultSet result) throws SQLException {
         return new Category(
-                result.getInt("id"),
+                result.getInt("category_id"),
                 result.getString("name")
         );
     }

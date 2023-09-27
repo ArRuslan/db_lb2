@@ -1,6 +1,6 @@
-package me.ruslan.dblb1.models;
+package me.ruslan.dblb2.models;
 
-import me.ruslan.dblb1.db.ModelsDeleteController;
+import me.ruslan.dblb2.db.ModelsDeleteController;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -75,7 +75,7 @@ public class User implements Model {
 
     public static User from_result(ResultSet result) throws SQLException {
         return new User(
-                result.getInt("id"),
+                result.getInt("user_id"),
                 result.getString("first_name"),
                 result.getString("last_name"),
                 result.getString("password"),

@@ -1,24 +1,22 @@
-package me.ruslan.dblb1;
+package me.ruslan.dblb2;
 
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
-import me.ruslan.dblb1.db.ModelsSelectController;
-import me.ruslan.dblb1.editForms.CategoryCUForm;
-import me.ruslan.dblb1.editForms.ProductCUForm;
-import me.ruslan.dblb1.editForms.UserCUForm;
-import me.ruslan.dblb1.models.Category;
-import me.ruslan.dblb1.models.Model;
-import me.ruslan.dblb1.models.Product;
-import me.ruslan.dblb1.models.User;
+import me.ruslan.dblb2.db.ModelsSelectController;
+import me.ruslan.dblb2.editForms.CategoryCUForm;
+import me.ruslan.dblb2.editForms.ProductCUForm;
+import me.ruslan.dblb2.editForms.UserCUForm;
+import me.ruslan.dblb2.models.Category;
+import me.ruslan.dblb2.models.Model;
+import me.ruslan.dblb2.models.Product;
+import me.ruslan.dblb2.models.User;
 
 import java.sql.SQLException;
 
@@ -31,7 +29,7 @@ public class MainFormController {
     @FXML
     public ChoiceBox<String> tablesChoiceBox;
     @FXML
-    public TableView<Product> productsTable;
+    TableView<Product> productsTable;
 
     public void initialize() throws SQLException {
         tablesChoiceBox.getItems().addAll("Users", "Categories", "Products");
@@ -40,7 +38,7 @@ public class MainFormController {
             currentTable = newValue.toLowerCase();
             try {
                 setTable();
-            } catch(SQLException e) {}
+            } catch(SQLException ignored) {}
             productsTable.setVisible(currentTable.equals("categories"));
         });
 
@@ -191,7 +189,7 @@ public class MainFormController {
     private void loadRelatedProductsData(Category category) throws SQLException {
         ObservableList<Product> products = FXCollections.observableArrayList();
         productsTable.setItems(products);
-        products.addAll(ModelsSelectController.getProductsByCagetory(category));
+        products.addAll(ModelsSelectController.getProductsByCategory(category));
     }
 
     private void createUsersTable() throws SQLException {
@@ -247,7 +245,7 @@ public class MainFormController {
         if(table == null) {
             load = true;
             destroyTable();
-            this.table = table = new TableView<Product>();
+            this.table = table = new TableView<>();
             createTable();
         }
 

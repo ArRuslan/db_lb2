@@ -1,4 +1,4 @@
-package me.ruslan.dblb1.db;
+package me.ruslan.dblb2.db;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
