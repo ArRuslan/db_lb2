@@ -9,6 +9,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import me.ruslan.dblb2.db.LimitedResult;
 import me.ruslan.dblb2.db.ModelsSelectController;
 import me.ruslan.dblb2.models.Category;
 import me.ruslan.dblb2.models.Model;
@@ -18,6 +19,16 @@ import me.ruslan.dblb2.models.User;
 import java.sql.SQLException;
 
 public class AllTablesController {
+    private int usersPage;
+    private int categoriesPage;
+    private int productsPage;
+
+    @FXML
+    public Pagination usersPagination;
+    @FXML
+    public Pagination categoriesPagination;
+    @FXML
+    public Pagination productsPagination;
     @FXML
     TableView<User> tableUsers;
     @FXML
@@ -26,11 +37,38 @@ public class AllTablesController {
     TableView<Product> tableProducts;
 
     public void initialize() throws SQLException {
+        setupPagination();
+
         initUsersTable();
         initCategoriesTable();
         initProductsTable();
 
         refreshData();
+    }
+
+    private void setupPagination() {
+        Runnable refresh = () -> {
+            try {
+                refreshData();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        };
+
+        usersPagination.currentPageIndexProperty().addListener((observable, oldValue, newValue) -> {
+            usersPage = (int) newValue;
+            refresh.run();
+        });
+
+        categoriesPagination.currentPageIndexProperty().addListener((observable, oldValue, newValue) -> {
+            categoriesPage = (int) newValue;
+            refresh.run();
+        });
+
+        productsPagination.currentPageIndexProperty().addListener((observable, oldValue, newValue) -> {
+            productsPage = (int) newValue;
+            refresh.run();
+        });
     }
 
     private void setFactory(TableView table) {
@@ -59,19 +97,28 @@ public class AllTablesController {
     private void loadUsersData() throws SQLException {
         ObservableList<User> users = FXCollections.observableArrayList();
         tableUsers.setItems(users);
-        users.addAll(ModelsSelectController.getUsers());
+
+        LimitedResult<User> res = ModelsSelectController.getUsersLim(10, 10 * usersPage);
+        usersPagination.setPageCount((int)Math.ceil(res.count / 10.0));
+        users.addAll(res.objects);
     }
 
     private void loadCategoriesData() throws SQLException {
         ObservableList<Category> categories = FXCollections.observableArrayList();
         tableCategories.setItems(categories);
-        categories.addAll(ModelsSelectController.getCategories());
+
+        LimitedResult<Category> res = ModelsSelectController.getCategoriesLim(10, 10 * categoriesPage);
+        categoriesPagination.setPageCount((int)Math.ceil(res.count / 10.0));
+        categories.addAll(res.objects);
     }
 
     private void loadProductsData() throws SQLException {
         ObservableList<Product> products = FXCollections.observableArrayList();
         tableProducts.setItems(products);
-        products.addAll(ModelsSelectController.getProducts());
+
+        LimitedResult<Product> res = ModelsSelectController.getProductsLim(10, 10 * productsPage);
+        productsPagination.setPageCount((int)Math.ceil(res.count / 10.0));
+        products.addAll(res.objects);
     }
 
     private void initUsersTable() {

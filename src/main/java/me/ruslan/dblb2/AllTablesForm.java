@@ -13,7 +13,7 @@ public class AllTablesForm {
         try {
             Stage stage = new Stage();
             FXMLLoader fxmlLoader = new FXMLLoader(MainForm.class.getResource("all_tables.fxml"));
-            Scene scene = new Scene(fxmlLoader.load(), 720, 600);
+            Scene scene = new Scene(fxmlLoader.load(), 720, 680);
 
             stage.setTitle("All tables");
             stage.setScene(scene);
