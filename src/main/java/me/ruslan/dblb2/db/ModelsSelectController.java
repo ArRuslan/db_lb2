@@ -26,12 +26,12 @@ public class ModelsSelectController {
         return object;
     }
 
-    private static ArrayList<Model> getObjects(String tableName, Function<ResultSet, Model> constructor) throws SQLException {
-        ArrayList<Model> objects = new ArrayList<>();
+    private static <T> ArrayList<T> getObjects(String tableName, Function<ResultSet, T> constructor) throws SQLException {
+        ArrayList<T> objects = new ArrayList<>();
 
         Connection conn = Conn.get();
         Statement statement = conn.createStatement();
-        ResultSet resultSet = statement.executeQuery("SELECT * FROM " + tableName);
+        ResultSet resultSet = statement.executeQuery(String.format("SELECT * FROM %s", tableName));
         while (resultSet.next())
             objects.add(constructor.apply(resultSet));
         resultSet.close();
@@ -41,41 +41,65 @@ public class ModelsSelectController {
         return objects;
     }
 
+    private static <T> LimitedResult<T> getObjectsLimited(String tableName, Function<ResultSet, T> constructor, int limit, int offset) throws SQLException {
+        ArrayList<T> objects = new ArrayList<>();
+        int count = 0;
+
+        Connection conn = Conn.get();
+        PreparedStatement statement = conn.prepareStatement(String.format("SELECT *, COUNT(*) OVER () as %s_count FROM %s LIMIT ? OFFSET ?", tableName, tableName));
+        statement.setInt(1, limit);
+        statement.setInt(2, offset);
+        ResultSet resultSet = statement.executeQuery();
+        while (resultSet.next()) {
+            if (count == 0) count = resultSet.getInt(String.format("%s_count", tableName));
+            objects.add(constructor.apply(resultSet));
+        }
+        resultSet.close();
+        statement.close();
+        conn.close();
+
+        return new LimitedResult<>(objects, count);
+    }
+
+
     public static User getUser(int id) throws SQLException {
         return (User) getObjectById(id, "users", "user_id", User::try_from_result);
     }
 
     public static ArrayList<User> getUsers() throws SQLException {
-        ArrayList<User> users = new ArrayList<>();
-        for(Model m : getObjects("users", User::try_from_result))
-            users.add((User)m);
-
-        return users;
+        return getObjects("users", User::try_from_result);
     }
+
+    public static LimitedResult<User> getUsersLim(int limit, int offset) throws SQLException {
+        return getObjectsLimited("users", User::try_from_result, limit, offset);
+    }
+
 
     public static Category getCategory(int id) throws SQLException {
         return (Category) getObjectById(id, "categories", "category_id", Category::try_from_result);
     }
 
     public static ArrayList<Category> getCategories() throws SQLException {
-        ArrayList<Category> categories = new ArrayList<>();
-        for(Model m : getObjects("categories", Category::try_from_result))
-            categories.add((Category)m);
-
-        return categories;
+        return getObjects("categories", Category::try_from_result);
     }
+
+    public static LimitedResult<Category> getCategoriesLim(int limit, int offset) throws SQLException {
+        return getObjectsLimited("categories", Category::try_from_result, limit, offset);
+    }
+
 
     public static Product getProduct(int id) throws SQLException {
         return (Product) getObjectById(id, "products", "product_id", Product::try_from_result);
     }
 
     public static ArrayList<Product> getProducts() throws SQLException {
-        ArrayList<Product> products = new ArrayList<>();
-        for(Model m : getObjects("products", Product::try_from_result))
-            products.add((Product)m);
-
-        return products;
+        return getObjects("products", Product::try_from_result);
     }
+
+    public static LimitedResult<Product> getProductsLim(int limit, int offset) throws SQLException {
+        return getObjectsLimited("products", Product::try_from_result, limit, offset);
+    }
+
 
     public static ArrayList<Product> getProductsByCategory(Category category) throws SQLException {
         ArrayList<Product> products = new ArrayList<>();
