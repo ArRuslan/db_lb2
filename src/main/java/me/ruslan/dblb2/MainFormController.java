@@ -11,9 +11,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 import me.ruslan.dblb2.db.LimitedResult;
 import me.ruslan.dblb2.db.ModelsSelectController;
-import me.ruslan.dblb2.editForms.CategoryCUForm;
-import me.ruslan.dblb2.editForms.ProductCUForm;
-import me.ruslan.dblb2.editForms.UserCUForm;
+import me.ruslan.dblb2.forms.*;
 import me.ruslan.dblb2.models.Category;
 import me.ruslan.dblb2.models.Model;
 import me.ruslan.dblb2.models.Product;
@@ -302,5 +300,9 @@ public class MainFormController {
 
     public void showAllTables() {
         new AllTablesForm().show(mainPane.getScene().getWindow());
+    }
+
+    public void openSqlForm() {
+        new SqlForm().show(mainPane.getScene().getWindow());
     }
 }

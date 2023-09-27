@@ -1,4 +1,4 @@
-package me.ruslan.dblb2.editForms;
+package me.ruslan.dblb2.forms;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -6,7 +6,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import me.ruslan.dblb2.MainForm;
-import me.ruslan.dblb2.editForms.controllers.CategoryCUDialog;
+import me.ruslan.dblb2.forms.controllers.CategoryCUDialog;
 import me.ruslan.dblb2.models.Category;
 
 import java.io.IOException;

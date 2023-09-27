@@ -4,6 +4,9 @@ module me.ruslan.dblb2 {
     requires java.sql;
 
     opens me.ruslan.dblb2 to javafx.fxml;
-    opens me.ruslan.dblb2.editForms.controllers to javafx.fxml;
     exports me.ruslan.dblb2;
+    opens me.ruslan.dblb2.forms.controllers to javafx.fxml;
+    exports me.ruslan.dblb2.forms;
+    opens me.ruslan.dblb2.forms to javafx.fxml;
+    exports me.ruslan.dblb2.forms.controllers;
 }

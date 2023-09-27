@@ -1,4 +1,4 @@
-package me.ruslan.dblb2;
+package me.ruslan.dblb2.forms.controllers;
 
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleIntegerProperty;

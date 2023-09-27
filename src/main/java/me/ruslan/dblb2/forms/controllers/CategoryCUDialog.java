@@ -1,4 +1,4 @@
-package me.ruslan.dblb2.editForms.controllers;
+package me.ruslan.dblb2.forms.controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;

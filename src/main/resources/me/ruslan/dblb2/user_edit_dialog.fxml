@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 
 <AnchorPane prefHeight="224.0" prefWidth="290.0" xmlns="http://javafx.com/javafx/17.0.2-ea"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="me.ruslan.dblb2.editForms.controllers.UserCUDialog">
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="me.ruslan.dblb2.forms.controllers.UserCUDialog">
    <Pane prefHeight="224.0" prefWidth="290.0">
       <Label layoutX="14.0" layoutY="18.0" text="First name:"/>
       <TextField fx:id="firstNameText" layoutX="117.0" layoutY="12.0"/>

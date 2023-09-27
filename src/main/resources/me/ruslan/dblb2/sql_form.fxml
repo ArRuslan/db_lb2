@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="440.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="me.ruslan.dblb2.forms.controllers.SqlFormController">
+   <TextArea fx:id="sqlText" layoutX="14.0" layoutY="14.0" prefHeight="180.0" prefWidth="483.0" />
+   <VBox alignment="CENTER" layoutX="510.0" layoutY="14.0" prefHeight="180.0" prefWidth="76.0" spacing="50.0">
+      <Button mnemonicParsing="false" onAction="#executeSql" prefHeight="26.0" prefWidth="72.0" text="Execute" />
+      <Button mnemonicParsing="false" onAction="#cleanTF" prefHeight="26.0" prefWidth="72.0" text="Clear" />
+      <Button mnemonicParsing="false" onAction="#exit" prefHeight="26.0" prefWidth="72.0" text="Exit" />
+   </VBox>
+   <TableView fx:id="resultsTable" layoutX="14.0" layoutY="212.0" prefHeight="180.0" prefWidth="572.0" />
+   <Pagination layoutX="14.0" layoutY="392.0" prefHeight="48.0" prefWidth="572.0" />
+</AnchorPane>
