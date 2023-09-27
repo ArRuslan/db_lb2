@@ -3,5 +3,5 @@
 ```diff
 - Manual sql query execution
 - Table pages & navigation
-- Editing existing rows (ChoiceBox for foreign keys)
++ Editing existing rows (ChoiceBox for foreign keys)
 ```

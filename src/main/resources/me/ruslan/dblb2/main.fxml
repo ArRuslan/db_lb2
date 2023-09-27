@@ -9,12 +9,13 @@
         <VBox.margin>
             <Insets bottom="16.0" left="16.0" right="16.0" top="16.0" />
         </VBox.margin>
-        <TableView fx:id="table" prefHeight="224.0" prefWidth="688.0">
-        </TableView>
-      <Button layoutX="623.0" layoutY="230.0" mnemonicParsing="false" onAction="#refreshData" text="Refresh" />
-      <ChoiceBox fx:id="tablesChoiceBox" layoutY="230.0" prefHeight="26.0" prefWidth="175.0" />
-      <Button layoutX="551.0" layoutY="230.0" mnemonicParsing="false" onAction="#createObj" text="Create" />
-      <Button layoutX="188.0" layoutY="230.0" mnemonicParsing="false" onAction="#showAllTables" text="Show all tables" />
-      <TableView layoutY="267.0" prefHeight="181.0" prefWidth="688.0" visible="false" fx:id="productsTable"/>
+        <TableView fx:id="table" prefHeight="224.0" prefWidth="688.0"/>
+
+        <ChoiceBox fx:id="tablesChoiceBox" layoutY="230.0" prefHeight="26.0" prefWidth="175.0" />
+        <Button layoutX="188.0" layoutY="230.0" mnemonicParsing="false" onAction="#showAllTables" text="Show all tables" />
+        <Button layoutX="551.0" layoutY="230.0" mnemonicParsing="false" onAction="#createObj" text="Create" />
+        <Button layoutX="623.0" layoutY="230.0" mnemonicParsing="false" onAction="#refreshData" text="Refresh" />
+
+        <TableView layoutY="267.0" prefHeight="181.0" prefWidth="688.0" visible="false" fx:id="productsTable"/>
     </Pane>
 </VBox>

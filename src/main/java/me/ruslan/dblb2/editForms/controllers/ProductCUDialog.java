@@ -1,19 +1,25 @@
 package me.ruslan.dblb2.editForms.controllers;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
 import me.ruslan.dblb2.db.ModelsCreateController;
+import me.ruslan.dblb2.db.ModelsSelectController;
 import me.ruslan.dblb2.db.ModelsUpdateController;
+import me.ruslan.dblb2.models.Category;
 import me.ruslan.dblb2.models.Product;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class ProductCUDialog {
     @FXML
-    public TextField categoryIdText;
+    public ChoiceBox<Category> categoryChoice;
     @FXML
     public TextField nameText;
     @FXML
@@ -30,12 +36,41 @@ public class ProductCUDialog {
 
     public void setProduct(Product product) {
         this.product = product;
-        categoryIdText.setText(product.getCategoryId()+"");
+        categoryChoice.setValue(new Category(0, "<NULL>"));
+        categoryChoice.setDisable(true);
         nameText.setText(product.getName());
         descriptionText.setText(product.getDescription());
         imageUrlText.setText(product.getImageUrl());
         priceText.setText(product.getPrice()+"");
         quantityText.setText(product.getQuantity()+"");
+
+        new Thread(() -> {
+            Category cat = product.getCategory();
+            ArrayList<Category> cats;
+            try {
+                cats = ModelsSelectController.getCategories();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return;
+            }
+
+            cats.add(0, new Category(0, "<NULL>"));
+            if(cat != null) Platform.runLater(() -> categoryChoice.setValue(cat));
+            Platform.runLater(() -> categoryChoice.getItems().setAll(cats));
+            Platform.runLater(() -> categoryChoice.setDisable(false));
+        }).start();
+
+        categoryChoice.setConverter(new StringConverter<>() {
+            @Override
+            public String toString(Category object) {
+                return object.getName();
+            }
+
+            @Override
+            public Category fromString(String string) {
+                return null;
+            }
+        });
     }
 
     public void setCreate(boolean create) {
@@ -59,11 +94,11 @@ public class ProductCUDialog {
     }
 
     public void close() {
-        ((Stage)categoryIdText.getScene().getWindow()).close();
+        ((Stage)categoryChoice.getScene().getWindow()).close();
     }
 
     public void save() {
-        int category_id = parseInt(categoryIdText.getText(), "category id");
+        int category_id = categoryChoice.getValue().getId();
         String name = nameText.getText();
         String description = descriptionText.getText();
         String imageUrl = imageUrlText.getText();
